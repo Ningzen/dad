@@ -7,3 +7,7 @@
 https://Ningzen@dev.azure.com/Ningzen/eShopOnWeb/_git/eShopOnWeb
 
 With the SOURCE CONTROL tab selected, at the top of the pane, in the textbox, type My commit as the commit message and press Ctrl+Enter to commit it locally.
+
+>Git: Delete Branch
+//This command will update the origin branches in the local snapshot and delete those that are no longer there.
+>Git: Fetch (Prune)
