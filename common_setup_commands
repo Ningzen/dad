@@ -3,7 +3,7 @@
  git config --global user.email <johndoe@example.com>
 
 //F1 on VS
-git:clone
+>git:clone
 https://Ningzen@dev.azure.com/Ningzen/eShopOnWeb/_git/eShopOnWeb
 
 With the SOURCE CONTROL tab selected, at the top of the pane, in the textbox, type My commit as the commit message and press Ctrl+Enter to commit it locally.
