@@ -15,3 +15,22 @@ With the SOURCE CONTROL tab selected, at the top of the pane, in the textbox, ty
 
 //to restore branch from Ado
 tab All in Branches, input name of branch in filter search. normally cannot see
+
+//The repo .git\hooks folder isn't committed into source control. You may wonder how you share the goodness of the automated scripts you create with the team.
+Git config --global core.hooksPath '~/.githooks'
+
+//overwrite hooks
+Git commit --no-verify
+
+//scan local repo for keywords and throw
+
+#!C:/Program\ Files/Git/usr/bin/sh.exe
+matches=$(git diff-index --patch HEAD | grep '^+' | grep -Pi 'password|keyword2|keyword3')
+if [ ! -z "$matches" ]
+then
+    cat <<\EOT
+Error: Words from the blocked list were present in the diff:
+EOT
+    echo $matches
+    exit 1
+fi
