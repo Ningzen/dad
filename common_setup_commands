@@ -11,3 +11,7 @@ With the SOURCE CONTROL tab selected, at the top of the pane, in the textbox, ty
 >Git: Delete Branch
 //This command will update the origin branches in the local snapshot and delete those that are no longer there.
 >Git: Fetch (Prune)
+
+
+//to restore branch from Ado
+tab All in Branches, input name of branch in filter search. normally cannot see
