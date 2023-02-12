@@ -98,3 +98,8 @@ designating the target agent pool the following content, designating the newly c
  
  //For Task: NugetToolInstaller@0, click on Settings (link that is displaying above the task in grey colour), 
  //modify Version of NuGet.exe to install > 4.0.0 and click on Add.
+
+YAML Pipelines as Code don’t have Release/Quality Gates as we have with Azure DevOps Classic Release Pipelines. However, some similarities can be configured for YAML Pipelines-as-Code using Environments.
+
+As the environment is a specific setting of a deployment stage, it cannot be used by “jobs”. Therefore, we have to make some additional changes to the current job definition.
+On Line 60, rename “- job: Deploy” to - deployment: Deploy
