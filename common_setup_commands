@@ -85,3 +85,16 @@ https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=
  [System.IO.Compression.ZipFile]::ExtractToDirectory($TARGET, "$PWD")
  
   .\config.cmd
+
+On the PartsUnlimited edit pane, in the existing YAML-based pipeline, 
+replace line 
+vmImage: windows-2019 
+
+designating the target agent pool the following content, designating the newly created self-hosted agent pool:
+
+ name: az400m05l05a-pool
+ demands:
+ - agent.name -equals az400m05-vm0
+ 
+ //For Task: NugetToolInstaller@0, click on Settings (link that is displaying above the task in grey colour), 
+ //modify Version of NuGet.exe to install > 4.0.0 and click on Add.
