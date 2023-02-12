@@ -106,3 +106,21 @@ On Line 60, rename “- job: Deploy” to - deployment: Deploy
 
 //create the Azure Service Principal used by GitHub to deploy the desired resources
 az ad sp create-for-rbac --name GH-Action-eshoponweb --role contributor --scopes /subscriptions/SUBSCRIPTION-ID/resourceGroups/RESOURCE-GROUP --sdk-auth
+
+
+//create app service plan and deploy 2 webapp
+ REGION='centralus'
+ RESOURCEGROUPNAME='az400m04l09-RG'
+ az group create -n $RESOURCEGROUPNAME -l $REGION
+ 
+  SERVICEPLANNAME='az400m04l09-sp1'
+ az appservice plan create -g $RESOURCEGROUPNAME -n $SERVICEPLANNAME --sku S1
+ 
+  SUFFIX=$RANDOM$RANDOM
+ az webapp create -g $RESOURCEGROUPNAME -p $SERVICEPLANNAME -n RGATES$SUFFIX-Canary
+ az webapp create -g $RESOURCEGROUPNAME -p $SERVICEPLANNAME -n RGATES$SUFFIX-Prod
+ 
+ //release dashboard api
+ https://vsrm.dev.azure.com/<organization_name>/Creating%20a%20Release%20Dashboard/_apis/release/releases?api-version=6.0
+ https://vsrm.dev.azure.com/<organization_name>/Creating%20a%20Release%20Dashboard/_apis/release/deployments?DeploymentStatus=failed&api-version=6.0
+  
