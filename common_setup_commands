@@ -103,3 +103,6 @@ YAML Pipelines as Code don’t have Release/Quality Gates as we have with Azure 
 
 As the environment is a specific setting of a deployment stage, it cannot be used by “jobs”. Therefore, we have to make some additional changes to the current job definition.
 On Line 60, rename “- job: Deploy” to - deployment: Deploy
+
+//create the Azure Service Principal used by GitHub to deploy the desired resources
+az ad sp create-for-rbac --name GH-Action-eshoponweb --role contributor --scopes /subscriptions/SUBSCRIPTION-ID/resourceGroups/RESOURCE-GROUP --sdk-auth
