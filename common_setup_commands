@@ -67,9 +67,21 @@ https://dev.azure.com/Ningzen/eShopOnWeb/_git/eShopOnWeb?path=/.ado/eshoponweb-c
  
  //New pipeline, Existing Azure Pipelines YAML File
  https://dev.azure.com/Ningzen/eShopOnWeb/_git/eShopOnWeb?path=/.ado/eshoponweb-cd-webapp-docker.yml
+
  
  //cleanup on azure
  
   //az group list --query "[?starts_with(name,'rg-az400-container-')].name" --output tsv
   az group list --query "[?starts_with(name,'rg-az400-container-')].[name]" --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
  
+//agent extract n config
+https://microsoftlearning.github.io/AZ400-DesigningandImplementingMicrosoftDevOpsSolutions/Instructions/Labs/AZ400_M03_L04_Configuring_Agent_Pools_and_Understanding_Pipeline_Styles.html
+https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops#check-prerequisites
+
+ cd \
+ mkdir agent ; cd agent
+ $TARGET = Get-ChildItem "$Home\Downloads\vsts-agent-win-x64-*.zip"
+ Add-Type -AssemblyName System.IO.Compression.FileSystem
+ [System.IO.Compression.ZipFile]::ExtractToDirectory($TARGET, "$PWD")
+ 
+  .\config.cmd
