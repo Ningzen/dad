@@ -124,3 +124,18 @@ az ad sp create-for-rbac --name GH-Action-eshoponweb --role contributor --scopes
  https://vsrm.dev.azure.com/<organization_name>/Creating%20a%20Release%20Dashboard/_apis/release/releases?api-version=6.0
  https://vsrm.dev.azure.com/<organization_name>/Creating%20a%20Release%20Dashboard/_apis/release/deployments?DeploymentStatus=failed&api-version=6.0
   
+On the Configure section, choose Existing Azure Pipelines YAML file. Provide the following path /.ado/eshoponweb-cd-aci.yml and click on Continue.
+
+In the YAML pipeline definition, customize:
+
+YOUR-SUBSCRIPTION-ID with your Azure subscription id.
+az400eshop-NAME replace NAME to make it globally unique.
+YOUR-ACR.azurecr.io and ACR-USERNAME with your ACR login server (both need the ACR name, can be reviewed on the ACR>Access Keys).
+AZ400-EWebShop-NAME with the resource group name defined before in the lab.
+Click on Save and Run and wait for the pipeline to execute successfully.
+
+Note: The deployment may take a few minutes to complete. The CD definition consists of the following tasks:
+
+Resources : it is prepared to automatically trigger based on CI pipeline completion. It also download the repository for the bicep file.
+Variables (for Deploy stage) connects to the variable group to consume the Azure Key Vault secret acr-secret
+AzureResourceManagerTemplateDeployment deploys the Azure Container Instance (ACI) using bicep template and provides the ACR login parameters to allow ACI to download the previously created container image from Azure Container Registry (ACR).
