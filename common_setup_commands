@@ -34,3 +34,16 @@ EOT
     echo $matches
     exit 1
 fi
+
+//create service principal on azure cloud shell
+subscriptionName=$(az account show --query name --output tsv)
+subscriptionId=$(az account show --query id --output tsv)
+echo $subscriptionName
+echo $subscriptionId
+
+az ad sp create-for-rbac --name sp-az400-azdo --role contributor --scopes /subscriptions/$subscriptionId
+// The command will generate a JSON output. Copy the output to text file.
+
+//to the Azure DevOps eShopOnWeb project. Click on Project Settings>Service Connections (under Pipelines) and New Service Connection.
+
+https://dev.azure.com/Ningzen/eShopOnWeb/_git/eShopOnWeb?path=/.ado/eshoponweb-ci-docker.yml
