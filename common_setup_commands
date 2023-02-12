@@ -139,3 +139,38 @@ Note: The deployment may take a few minutes to complete. The CD definition consi
 Resources : it is prepared to automatically trigger based on CI pipeline completion. It also download the repository for the bicep file.
 Variables (for Deploy stage) connects to the variable group to consume the Azure Key Vault secret acr-secret
 AzureResourceManagerTemplateDeployment deploys the Azure Container Instance (ACI) using bicep template and provides the ACR login parameters to allow ACI to download the previously created container image from Azure Container Registry (ACR).
+
+//Configure readiness probes for container
+apiVersion: 2019-12-01
+location: eastus
+name: readinesstest
+properties:
+  containers:
+  - name: mycontainer
+    properties:
+      image: mcr.microsoft.com/azuredocs/aci-helloworld
+      command:
+        - "/bin/sh"
+        - "-c"
+        - "node /usr/src/app/index.js & (sleep 240; touch /tmp/ready); wait"
+      ports:
+      - port: 80
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+      readinessProbe:
+        exec:
+          command:
+          - "cat"
+          - "/tmp/ready"
+        periodSeconds: 5
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: '80'
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
