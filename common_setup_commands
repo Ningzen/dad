@@ -174,3 +174,53 @@ properties:
       port: '80'
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
+
+---
+variables:
+  databaseServerName: server4000    //initial value
+  - group: SharedVariables    //Variable group shared among the pipelines of the same project so if the variable is inside, you can use $(whatever). Pipeline > Library > SharedVariables. Then link variable group under variables
+
+//Go Proj Setting > Service Connection > Subscription id > Manage Service Principal (Within Azure AD). Click and copy Application (client ID (Application object identity). Go to Key vault> Add access policy >Set Secret permissions as Get and List. Select principal with the right id.
+steps:
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'Azure subscription 1 (13452135125112512)'
+    KeyVaultName: 'appvault29239'
+    SecretsFilter:'*'
+    RunAsPreJob: false
+
+ - script: |
+     echo $(databaseServerName)   //rendered at runtime
+ - bash: echo "##vso[task.setvariable variable=databaseServerName]server5000"
+ - script: |
+     echo ${{ variables.databaseServerName }}    //rendered at compile time. initial value
+     echo $(dbpassword) > dpassword.txt                     ///check if hidden secret
+     
+ - task: CopyFiles@2
+   inputs:
+     Contents:dbpassword.txt
+     targetFolder: '$(Build.ArtifactStagingDirectory)'
+     
+ - task: PublishBuildArtifacts@1                    //the password will still appear there in Artifact. Thus this way is not safe
+   inputs:
+     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+     ArtifactName: 'secrets'
+     publishLocation: 'Container'
+     
+     //The best way is link variable group to key vault
+     
+     //if arm refer static reference to key vault in json
+     "SQLPass":{
+     "reference": {
+     "keyVault":{
+       "id": "/subscriptions/resourceidofvault"
+     },
+     "secretName": "dbpassword"
+     }
+     }
+     // rem to  check the access policies in ARM for template deployment
+     
+   //also got dynamic way
+   
+   Service connection is for ado to securely connect to external service.
+   PAT is for external service to authenticate with ADO.
