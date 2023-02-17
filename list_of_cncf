@@ -24,4 +24,18 @@ flux continuous delivery for Kubernetes
 Knative serverless containers in Kubernetes
 KubeVirt Kubernetes based Virtual Machine manager
 Notary for data security
-And many more.
+
+There are many dynamic projects in the CNCF Sandbox geared towards metrics, monitoring, identity, scripting, serverless, nodeless, edge, expecting to achieve Incubating and possibly Graduated status. While many active projects are preparing for takeoff, others are being archived once they become less active and no longer in demand. The first projects to be archived are the rkt container runtime, the distributed OpenTracing, and Brigade, an event driven automation tool.
+
+There are a variety of installation tools allowing us to deploy single- or multi-node Kubernetes clusters on our workstations, for learning and development purposes. While not an exhaustive list, below we enumerate a few popular ones:
+
+Minikube 
+Single- and multi-node local Kubernetes cluster, recommended for a learning environment deployed on a single host.
+Kind 
+Multi-node Kubernetes cluster deployed in Docker containers acting as Kubernetes nodes, recommended for a learning environment.
+Docker Desktop 
+Including a local Kubernetes cluster for Docker users. 
+MicroK8s 
+Local and cloud Kubernetes cluster for developers and production, from Canonical.
+K3S 
+Lightweight Kubernetes cluster for local, cloud, edge, IoT deployments, originally from Rancher, currently a CNCF project.
