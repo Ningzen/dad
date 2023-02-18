@@ -1,0 +1,113 @@
+xarg
+The xargs command builds and executes commands provided through the standard input. It takes the input and converts it into a command argument for another command.
+
+I think this command is very important and convenient. You can use this command to pass the output of the command as an argument to another command.
+
+Foe example, if you want to find all the “*.conf” files from the /etc directory, and categorize them into groups, you can use the following command:
+
+$ find /etc -name *.conf -type f -print | xargs file
+/etc/dhcp/dhclient.conf:                             ASCII text
+/etc/dracut.conf.d/ec2.conf:                         ASCII text
+...
+/etc/dbus-1/system.d/org.freedesktop.hostname1.conf: XML 1.0 document, ASCII text
+...
+/etc/dbus-1/session.conf:                            exported SGML document, ASCII text
+...
+You can also run more than one command with the -i option:
+
+$ cat file.txt | xargs -i  sh -c 'command {} | command2 {} && command3 {}'
+Or you can even archive files using tar
+
+$ find /home/tony -name "*.jpg" -type f | xargs tar -cxvf images.tar.gz
+nohup
+First of all, you need to understand that SIGHUP (Signal Hang UP) is a signal that terminates a Linux process when its controlling terminal is closed. If you accidentally close a terminal or lose connection with the host, all processes running at the time are automatically terminated.
+
+Using the nohup command is one way of blocking the SIGHUP signal and allowing processes to complete even after logging out from the terminal.
+
+For example, if you want to run the database export operation in the background, and record the operation output of the command to a file, then you can do this:
+
+$ nohup mysqldump -uroot -pxxxx —all-databases > ./alldatabases.sql &
+You can also run multiple processes in the background with nohup with the following command:
+
+nohup bash -c '[command1] && [command2]'
+Just replace command and command2 with your own commands, you can also add more commands if necessary, just use && as a separator.
+
+Find High Memory/CPU Usage Processes
+If you have htop installed, you can use it instead of typing to following commands, it’s more nicely visualized.
+
+You can use the following command to find out the high memory consumption processes in order:
+
+$ ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head -10
+  PID  PPID CMD                         %MEM %CPU
+ 1213     1 /usr/lib/systemd/systemd-jo  0.9  0.0
+ 2332     1 /usr/sbin/rsyslogd -n        0.6  0.0
+ 2417  2333 /usr/bin/ssm-agent-worker    0.5  0.0
+ 2474     1 python3 /usr/bin/amazon-efs  0.5  0.1
+ 2333     1 /usr/bin/amazon-ssm-agent    0.3  0.0
+ 2477     1 /usr/bin/stunnel /var/run/e  0.2  0.0
+ 9223  2392 sshd: txu [priv]             0.2  0.0
+ 2392     1 /usr/sbin/sshd -D            0.2  0.0
+ 9475  9256 sudo su -                    0.1  0.0
+Similarly, you can find out high CPU usage processes:
+
+$ ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head -10
+  PID  PPID CMD                         %MEM %CPU
+ 2474     1 python3 /usr/bin/amazon-efs  0.5  0.1
+    1     0 /usr/lib/systemd/systemd --  0.1  0.0
+    2     0 [kthreadd]                   0.0  0.0
+    3     2 [rcu_gp]                     0.0  0.0
+    4     2 [rcu_par_gp]                 0.0  0.0
+    6     2 [kworker/0:0H-ev]            0.0  0.0
+    8     2 [mm_percpu_wq]               0.0  0.0
+    9     2 [rcu_tasks_rude_]            0.0  0.0
+   10     2 [rcu_tasks_trace]            0.0  0.0
+View Multiple logs
+In our daily work, the way we view log files may be to use the tail command to view log files in one terminal, and another terminal to view another log file. But sometimes I find this method a little troublesome. In fact, there is a tool called multitail that can view multiple log files on the same terminal at the same time.
+
+The following command will show two logs in two columns
+
+$ multitail -s 2 /var/log/messages /var/log/cloud-init-output.log
+
+To install multitail :
+
+$ wget ftp://ftp.is.co.za/mirror/ftp.rpmforge.net/redhat/el6/en/x86_64/dag/RPMS/multitail-5.2.9-1.el6.rf.x86_64.rpm
+$ yum localinstall multitail-5.2.9-1.el6.rf.x86_64.rpm
+View TCP Connection Status
+View TCP connection by groups:
+
+$ netstat -nat | awk '{print $6}' | sort | uniq -c | sort -rn
+      6 LISTEN
+      4 ESTABLISHED
+      3 SYN_RECV
+      1 Foreign
+      1 established)
+Top 10 IPs with Highest Requests
+Sometimes the volume of user requests suddenly increases. At this time, we can check the IP status of the request source. If it is concentrated on a few IPs, there may be an attack, and we can use the firewall to block it. The command is as follows:
+
+$ netstat -anlp | grep 80| grep tcp | awk '{print $5}' | awk -F: '{print $1}' | sort | uniq -c | sort -nr | head -n10
+1566 10.1.1.2
+ 500 10.2.3.4
+ 44  10.3.2.4
+...
+Top 10 filehandler-consuming process
+Sometimes you need to monitor the number of open files per process on the server, the following command can help you find out the top 15:
+
+$ find /proc -maxdepth 1 -type d -name '[0-9]*' -exec bash -c "ls {}/fd/ | wc -l | tr '\n' ' '" \; -printf "fds (PID = %P) \n" |  sort -rn | head -15
+500 fds (PID = 2541)
+366 fds (PID = 29563)
+254 fds (PID = 1)
+46 fds (PID = 2613)
+44 fds (PID = 2253)
+41 fds (PID = 30709)
+38 fds (PID = 27695)
+37 fds (PID = 29971)
+...
+It goes into each PID folder in /proc directory and count the open files, then sort them in descending order.
+
+Find top connection
+Count IP address that with the most inbound connections:
+
+$ ss -t | awk '(NR>1) {print $5}' | awk -F: '{print $1}' | sort | uniq -c | sort -rn | head -10
+     16 127.0.0.1
+      8 10.238.168.96
+      1 10.229.36.59
