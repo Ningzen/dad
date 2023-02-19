@@ -93,3 +93,134 @@ replacement adapter, cri-dockerd that would ensure that the Docker Engine will c
 The kube-proxy is the network agent which runs on each node, control plane and workers, responsible for dynamic updates and maintenance of all networking rules on the node. It abstracts the details of Pods networking and forwards connection requests to the containers in the Pods. 
 
 The kube-proxy is responsible for TCP, UDP, and SCTP stream forwarding or random forwarding across a set of Pod backends of an application, and it implements forwarding rules defined by users through Service API objects.
+
+Let's take a look at the most popular installation tools available:
+
+kubeadm
+kubeadm is a first-class citizen of the Kubernetes ecosystem. It is a secure and recommended method to bootstrap a multi-node production ready Highly Available Kubernetes cluster, on-premises or in the cloud. kubeadm can also bootstrap a single-node cluster for learning. It has a set of building blocks to set up the cluster, but it is easily extendable to add more features. Please note that kubeadm does not support the provisioning of hosts - they should be provisioned separately with a tool of our choice.
+
+In addition, for a manual installation approach, the Kubernetes The Hard Way GitHub project by Kelsey Hightower is an extremely helpful installation guide and resource. The project aims to teach all the detailed steps involved in the bootstrapping of a Kubernetes cluster, steps that are otherwise automated by various tools mentioned in this chapter and obscured from the end user.
+
+With the release of Kubernetes v1.14, Windows was successfully introduced as a supported production ready operating system only for worker nodes of a Kubernetes cluster. This enabled Kubernetes to support the deployment of Windows containers in the cluster, either as a dedicated Windows cluster, or a hybrid cluster with Windows nodes running alongside Linux nodes. Keep in mind, however, that the control plane nodes are limited to running on Linux only, with no plans to extend the support to Windows control plane nodes.
+
+With Windows Server 2019 being the only Windows OS supported by Kubernetes, the same container workload orchestration tool can schedule and deploy both Linux and Windows containers in the same cluster. The user is responsible to configure the workload scheduling according to the expected OS, that is to schedule Linux and Windows containers on nodes with their respective operating systems when nodes of each OS are found in the same Kubernetes cluster.
+
+
+Minikube is one of the easiest, most flexible and popular methods to run an all-in-one or a multi-node local Kubernetes cluster, isolated by Virtual Machines (VM) or Containers, run directly on our workstations. Minikube is the tool responsible for the installation of Kubernetes components, cluster bootstrapping, and cluster tear-down when no longer needed. It includes additional features aimed to ease the user interaction with the Kubernetes cluster, but nonetheless, it initializes for us a fully functional, non-production, Kubernetes cluster extremely convenient for learning purposes. Minikube can be installed on native macOS, Windows, and many Linux distributions.
+
+Minikube is built on the capabilities of the libmachine library originally designed by Docker to build Virtual Machine container hosts on any physical infrastructure. In time Minikube became very flexible, supporting several hypervisors and container runtimes, depending on the host workstation's native OS.
+
+For those who feel more adventurous, Minikube can be installed without an isolation software, on bare-metal, which may result in permanent configuration changes to the host OS. To prevent such permanent configuration changes, a second form of isolation can be achieved by installing Minikube inside a Virtual Machine provisioned with a Type-2 Hypervisor of choice, and a desktop guest OS of choice (with enabled GUI). As a result, when installed inside a VM, Minikube will end up making configuration changes to the guest environment, still isolated from the host workstation. Therefore, now we have two distinct methods to isolate the Minikube environment from our host workstation.
+
+The isolation software can be specified by the user with the --driver option, otherwise Minikube will try to find a preferred method for the host OS of the workstation.
+
+
+Once decided on the isolation method, the next step is to determine the required number of Kubernetes cluster nodes, and their sizes in terms of CPU, memory, and disk space. Minikube invokes the hypervisor of choice to provision the infrastructure VM(s) which will host the Kubernetes cluster node(s), or the runtime of choice to run infrastructure container(s) that host the cluster node(s). Keep in mind that Minikube now supports all-in-one single-node and multi-node clusters. Regardless of the isolation method and the expected cluster and node sizes, a local Minikube Kubernetes cluster will ultimately be impacted and/or limited by the physical resources of the host workstation. We have to be mindful of the needs of the host OS and any utilities it may be running, then the needs of the hypervisor or the container runtime, and finally the remaining resources that can be allocated to our Kubernetes cluster. For a learning environment the recommendations are that a Kubernetes node has 2 CPU cores (or virtual CPUs) at a minimum, at least 2 GB of RAM memory (with 4 - 8 GB of RAM recommended for optimal usage), and 20+ GB of disk storage space. When migrating towards a larger, more dynamic, production grade cluster, these resource values should be adjusted accordingly. The Kubernetes nodes are expected to access the internet as well, for software updates, container image downloads, and for client accessibility.
+
+Following the node(s)' provisioning phase, Minikube invokes kubeadm, to bootstrap the Kubernetes cluster components inside the previously provisioned node(s). We need to ensure that we have the necessary hardware and software required by Minikube to build our environment.
+
+
+Below we outline the requirements to run Minikube on our local workstation:
+
+VT-x/AMD-v virtualization must be enabled on the local workstation, and/or verify if it is supported.
+kubectl
+kubectl is a binary used to access and manage any Kubernetes cluster. It is installed through Minikube and accessed through the minikube kubectl command, or it can be installed separately and run as a standalone tool. We will explore kubectl installation and usage in future chapters.
+Type-2 Hypervisor or Container Runtime
+Without a specified driver, Minikube will try to find an installed hypervisor or a runtime, in the following order of preference (on a Linux host): docker, kvm2, podman, vmware, and virtualbox. If multiple isolation software installations are found, such as docker and virtualbox, Minikube will pick docker over virtualbox if no desired driver is specified by the user. Hypervisors and Container Runtimes supported by various native workstation OSes:
+- On Linux VirtualBox, KVM2, and QEMU hypervisors, or Docker and Podman runtimes
+- On macOS VirtualBox, HyperKit, VMware Fusion, Parallels, and QEMU hypervisors, or Docker runtime
+- On Windows VirtualBox, Hyper-V, VMware Workstation, and QEMU hypervisors, or Docker runtime.
+NOTE: Minikube supports a --driver=none (on Linux) option that runs the Kubernetes components bare-metal, directly on the host OS and not inside a VM. With this option a Docker installation is required and a Linux OS on the local workstation, but no hypervisor installation. This driver is recommended for advanced users.
+
+Internet connection on the first Minikube run - to download packages, dependencies, updates and pull images needed to initialize the Minikube Kubernetes cluster components. Subsequent Minikube runs will require an Internet connection only when new container images need to be pulled from a public container registry or when deployed containerized applications need it for client accessibility. Once a container image has been pulled, it can be reused from the local container runtime image cache without an Internet connection.
+In this chapter, we use one of the most robust and stable isolation methods as a driver, the VirtualBox hypervisor, to provision the VM(s) which host the components of the Kubernetes cluster. While no longer the preferred driver due to slower startup times when compared with other methods, it is still one of the most stable drivers for Minikube.
+
+
+Let's learn how to install the latest Minikube release on Ubuntu Linux 20.04 LTS with VirtualBox v7.0 specifically. This installation assumes no other isolation software is installed on our Linux workstation, such as KVM2, QEMU, Docker Engine or Podman, that Minikube can use as a driver.
+
+NOTE: For other Linux OS distributions or releases, VirtualBox and Minikube versions, the installation steps may vary! Check the Minikube installation!
+
+Verify the virtualization support on your Linux OS in a terminal (a non-empty output indicates supported virtualization):
+
+$ grep -E --color 'vmx|svm' /proc/cpuinfo
+
+The easiest way to download and install the VirtualBox hypervisor for Linux is from its official download site. However, if feeling adventurous, in a terminal run the following commands to add the recommended source repository for the host OS, download and register the public key, update and install:
+
+$ sudo bash -c 'echo "deb \
+  [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] \
+  https://download.virtualbox.org/virtualbox/debian \
+  eoan contrib" >> /etc/apt/sources.list'
+
+$ wget -O- \
+  https://www.virtualbox.org/download/oracle_vbox_2016.asc | \
+  sudo gpg --dearmor --yes \
+  --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
+
+$ sudo apt update
+
+$ sudo apt install -y virtualbox-7.0
+
+Minikube can be downloaded and installed, in a terminal, the latest release or a specific release from the Minikube release page:
+
+$ curl -LO \
+  https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+
+$ sudo dpkg -i minikube_latest_amd64.deb
+
+NOTE: Replacing /latest/ with a particular version, such as /v1.27.1/ will download that specified Minikube version.
+
+Start Minikube. In a terminal we can start Minikube with the minikube start command, which bootstraps a single-node cluster with the latest stable Kubernetes version release. For a specific Kubernetes version the --kubernetes-version option can be used as such minikube start --kubernetes-version v1.25.1 (where latest is default and acceptable version value, and stable is also acceptable). More advanced start options will be explored later in this chapter:
+
+$ minikube start
+
+😄  minikube v1.28.0 on Ubuntu 20.04
+✨  Automatically selected the virtualbox driver. Other choices: none, ssh
+💿  Downloading VM boot image ...
+    > minikube-v1.28.0-amd64.iso....: 65 B / 65 B [----------] 100.00% ? p/s 0s
+    > minikube-v1.28.0-amd64.iso: 274.45 MiB / 274.45 MiB  100.00% 32.75 MiB p/
+👍  Starting control plane node minikube in cluster minikube
+💾  Downloading Kubernetes v1.25.3 preload ...
+    > preloaded-images-k8s-v18-v1...: 385.44 MiB / 385.44 MiB  100.00% 38.52 MiB
+🔥  Creating virtualbox VM (CPUs=2, Memory=6000MB, Disk=20000MB) ...
+🐳  Preparing Kubernetes v1.25.3 on Docker 20.10.20 ...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: default-storageclass, storage-provisioner
+💡  kubectl not found. If you need it, try: 'minikube kubectl -- get pods -A'
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+NOTE: An error message that reads "Unable to pick a default driver..." means that Minikube was not able to locate any one of the supported hypervisors or runtimes. The recommendation is to install or re-install a desired isolation tool, and ensure its executable is found in the default PATH of your OS distribution. 
+
+Check the status. With the minikube status command, we display the status of the Minikube cluster:
+
+$ minikube status
+
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+Stop Minikube. With the minikube stop command, we can stop Minikube:
+
+$ minikube stop
+
+✋  Stopping node "minikube"  ...
+🛑  1 node stopped.
+
+----rhel
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+
+
+
+
+
+
+
+
