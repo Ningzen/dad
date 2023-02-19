@@ -1,0 +1,49 @@
+Let's learn how to install the latest Minikube release on Windows 10 with VirtualBox v7.0 specifically. This installation assumes no other isolation software is installed on our Windows workstation, such as Hyper-V, VMware Workstation, QEMU or Docker Engine, that Minikube can use as a driver.
+
+NOTE: For other OS, VirtualBox, and Minikube versions, the installation steps may vary! Check the Minikube installation!
+
+Verify the virtualization support on your Windows system (multiple output lines ending with 'Yes' indicate supported virtualization):
+
+PS C:\WINDOWS\system32> systeminfo
+
+Install the VirtualBox hypervisor for 'Windows hosts'. Download and install the .exe package.
+
+NOTE: You may need to disable Hyper-V on your Windows host (if previously installed and used) while running VirtualBox.
+
+Install Minikube. We can download the latest release or a specific release from the Minikube release page. Once downloaded, we need to make sure it is added to our PATH. There are multiple packages available to download for Windows, found under a Minikube release. However, downloading and installing the .exe will automatically add the executable to the PATH. Let's download and install the latest  minikube-installer.exe package.
+
+Start Minikube. We can start Minikube using the minikube start command, which bootstraps a single-node cluster with the latest stable Kubernetes version release. For a specific Kubernetes version the --kubernetes-version option can be used as such minikube start --kubernetes-version v1.25.1 (where latest is default and acceptable version value, and stable is also acceptable). More advanced start options will be explored later in this chapter. Open the PowerShell using the Run as Administrator option and execute the following command:
+
+PS C:\WINDOWS\system32> minikube start
+
+😄  minikube v1.28.0 on Windows 10
+✨  Automatically selected the virtualbox driver
+💿  Downloading VM boot image ...
+👍  Starting control plane node minikube in cluster minikube
+💾  Downloading Kubernetes v1.25.3 preload ...
+🔥  Creating virtualbox VM (CPUs=2, Memory=6000MB, Disk=20000MB) ...
+🐳  Preparing Kubernetes v1.25.3 on Docker 20.10.20 ...
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: default-storageclass, storage-provisioner
+💡  kubectl not found. If you need it, try: 'minikube kubectl -- get pods -A'
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+NOTE: An error message that reads "Unable to pick a default driver..." means that Minikube was not able to locate any one of the supported hypervisors or runtimes. The recommendation is to install or re-install a desired isolation tool, and ensure its executable is found in the default PATH of your OS.
+
+Check the status. With the minikube status command, we display the status of the Minikube cluster. Open the PowerShell using the Run as Administrator option and execute the following command:
+
+PS C:\WINDOWS\system32> minikube status
+
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+Stop Minikube. We can stop Minikube using the minikube stop command. Open the PowerShell using the Run as Administrator option and execute the following command:
+
+PS C:\WINDOWS\system32> minikube stop
+
+✋  Stopping node "minikube"  ...
+🛑  1 nodes stopped.
