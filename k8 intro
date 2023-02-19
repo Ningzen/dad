@@ -217,10 +217,14 @@ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
 
+//check vmx
+lscpu | grep -i virtualization
 
 
+Enable EPEL Repo in RHEL
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y
 
-
-
-
-
+ install the dependencies
+ sudo dnf update -y
+ sudo dnf install binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkms -y
+ 
