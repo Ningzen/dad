@@ -227,4 +227,22 @@ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noa
  install the dependencies
  sudo dnf update -y
  sudo dnf install binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkms -y
- 
+
+To add the VirtualBox repository
+sudo dnf config-manager --add-repo=https://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo
+
+import the VirtualBox GPG key
+sudo  rpm --import https://www.virtualbox.org/download/oracle_vbox.asc
+
+sudo dnf install VirtualBox-7.0 -y
+
+Be sure to add the logged-in user to the vboxusers group
+sudo usermod -aG vboxusers $USER
+newgrp vboxusers
+
+
+
+
+
+
+
