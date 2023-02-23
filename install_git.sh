@@ -130,3 +130,5 @@ sudo docker run --detach \
 --volume /srv/gitlab/logs:/var/log/gitlab \
 --volume /srv/gitlab/data:/var/opt/gitlab \
 gitlab/gitlab-ce:latest
+
+https://forum.gitlab.com/t/cannot-access-local-gitlab-server-gui-using-browser/36452/6
