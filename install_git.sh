@@ -132,3 +132,5 @@ sudo docker run --detach \
 gitlab/gitlab-ce:latest
 
 https://forum.gitlab.com/t/cannot-access-local-gitlab-server-gui-using-browser/36452/6
+
+/etc/hosts
