@@ -15,7 +15,7 @@ sudo docker pull gitlab/gitlab-ce:latest
 
 # Create a new Docker container for Gitlab
 sudo docker run --detach \
---hostname 127.0.0.1 \
+--hostname localhost \
 --publish 443:443 --publish 8080:80 --publish 22:22 \
 --name gitlab \
 --restart always \
@@ -31,3 +31,19 @@ echo "Gitlab is now running at http://<hostname_or_ip>."
 Access Gitlab: Once the container is up and running, access Gitlab by opening your web browser and entering the following URL: http://<hostname_or_ip>. You will be redirected to the Gitlab setup page where you can create your admin account and set up your first project.
 
 The set -e command at the beginning of the script causes the script to exit immediately if any command fails. This way, if any of the commands fail during the installation process, the script will stop executing and the user will be alerted to the error.
+
+sudo docker ps -a --filter "name=gitlab"
+
+sudo docker stop 
+sudo docker rm <container_id>
+
+sudo docker run --detach \
+--hostname localhost \
+--publish 8080:80 --publish 22:22 \
+--name gitlab \
+--restart always \
+--volume /srv/gitlab/config:/etc/gitlab \
+--volume /srv/gitlab/logs:/var/log/gitlab \
+--volume /srv/gitlab/data:/var/opt/gitlab \
+gitlab/gitlab-ce:latest
+
