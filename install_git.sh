@@ -13,16 +13,19 @@ sudo systemctl enable docker
 # Download Gitlab image from Docker hub
 sudo docker pull gitlab/gitlab-ce:latest
 
+sudo firewall-cmd --zone=public --add-port=8080/tcp --add-source=192.168.0.2 --permanent
+
 # Create a new Docker container for Gitlab
 sudo docker run --detach \
---hostname localhost \
---publish 443:443 --publish 8080:80 --publish 22:22 \
+--hostname 192.168.0.2 \
+--publish 8080:80 --publish 22:22 \
 --name gitlab \
 --restart always \
 --volume /srv/gitlab/config:/etc/gitlab \
 --volume /srv/gitlab/logs:/var/log/gitlab \
 --volume /srv/gitlab/data:/var/opt/gitlab \
 gitlab/gitlab-ce:latest
+
 
 # Access Gitlab
 echo "Gitlab is now running at http://<hostname_or_ip>."
@@ -37,13 +40,7 @@ sudo docker ps -a --filter "name=gitlab"
 sudo docker stop 
 sudo docker rm <container_id>
 
-sudo docker run --detach \
---hostname localhost \
---publish 8080:80 --publish 22:22 \
---name gitlab \
---restart always \
---volume /srv/gitlab/config:/etc/gitlab \
---volume /srv/gitlab/logs:/var/log/gitlab \
---volume /srv/gitlab/data:/var/opt/gitlab \
-gitlab/gitlab-ce:latest
+sudo netstat -tulpn | grep <ip_address>
+sudo kill <pid>
+
 
