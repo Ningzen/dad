@@ -134,3 +134,5 @@ gitlab/gitlab-ce:latest
 https://forum.gitlab.com/t/cannot-access-local-gitlab-server-gui-using-browser/36452/6
 
 /etc/hosts
+
+https://medium.com/devops-with-valentine/setup-gitlab-ci-runner-with-docker-executor-on-windows-10-11-c58dafba9191
