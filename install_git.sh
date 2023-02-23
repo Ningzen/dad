@@ -47,3 +47,13 @@ sudo netstat -tulpn | grep <ip_address>
 sudo kill <pid>
 
 
+sudo docker run --detach \
+--privileged \
+--hostname 192.168.0.2 \
+--publish 8080:80 --publish 22:22 \
+--name gitlab \
+--restart always \
+--volume /srv/gitlab/config:/etc/gitlab \
+--volume /srv/gitlab/logs:/var/log/gitlab \
+--volume /srv/gitlab/data:/var/opt/gitlab \
+gitlab/gitlab-ce:latest
