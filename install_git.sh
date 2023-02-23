@@ -59,3 +59,16 @@ sudo docker run --detach \
 --volume /srv/gitlab/logs:/var/log/gitlab \
 --volume /srv/gitlab/data:/var/opt/gitlab \
 gitlab/gitlab-ce:latest
+
+sudo nano /etc/firewalld/services/gitlab.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>GitLab</short>
+  <description>GitLab service</description>
+  <port protocol="tcp" port="80"/>
+  <port protocol="tcp" port="2222"/>
+  <port protocol="tcp" port="443"/>
+</service>
+
+sudo firewall-cmd --reload
