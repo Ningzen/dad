@@ -1,0 +1,22 @@
+By default, GitLab disables login for the root user in order to improve the security of the application. Instead, GitLab encourages the use of a regular user account with administrative privileges. During the initial setup of GitLab, you should have been prompted to create an administrative user account. You can use this account to log in to GitLab.
+
+If you didn't create an administrative user account during the initial setup, you can still create one using the GitLab Rails console. Here's how to do it:
+
+Log in to the GitLab container using the command sudo docker exec -it gitlab /bin/bash.
+
+Once you're inside the container, switch to the git user by running su - git.
+
+Run the command gitlab-rails console production to start the GitLab Rails console.
+
+In the console, run the following command to create a new user with admin privileges:
+
+less
+Copy code
+User.create!(name: 'Your Name', email: 'your_email@example.com', password: 'your_password', password_confirmation: 'your_password', admin: true, username: 'your_username')
+Make sure to replace the placeholders with your actual name, email, password, and username.
+
+Exit the console by running exit and then exit the container by running exit again.
+
+You should now be able to log in to GitLab using the account you just created.
+
+Note: If you're running GitLab on a production server, it's recommended that you use an external database server instead of the default SQLite database that comes with GitLab. This will provide better performance and reliability.
