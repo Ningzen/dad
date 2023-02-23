@@ -47,10 +47,12 @@ sudo netstat -tulpn | grep <ip_address>
 sudo kill <pid>
 
 
+sudo systemctl status sshd
+
 sudo docker run --detach \
 --privileged \
 --hostname 192.168.0.2 \
---publish 8080:80 --publish 22:22 \
+--publish 8080:80 --publish 2222:22 \
 --name gitlab \
 --restart always \
 --volume /srv/gitlab/config:/etc/gitlab \
