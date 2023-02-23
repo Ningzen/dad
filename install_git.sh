@@ -16,7 +16,7 @@ sudo docker pull gitlab/gitlab-ce:latest
 # Create a new Docker container for Gitlab
 sudo docker run --detach \
 --hostname 127.0.0.1 \
---publish 443:443 --publish 80:80 --publish 22:22 \
+--publish 443:443 --publish 8080:80 --publish 22:22 \
 --name gitlab \
 --restart always \
 --volume /srv/gitlab/config:/etc/gitlab \
