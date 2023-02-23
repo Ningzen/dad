@@ -104,3 +104,29 @@ sudo nano /etc/firewalld/services/gitlab.xml
 </service>
 
 sudo firewall-cmd --reload
+
+
+--------
+#!/bin/bash
+
+# Install docker
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Configure firewall
+sudo firewall-cmd --zone=public --add-port=80/tcp --add-port=443/tcp --add-port=2222/tcp --permanent
+sudo firewall-cmd --reload
+
+# Start GitLab container
+sudo docker run --detach \
+--hostname gitlab.example.com \
+--publish 443:443 --publish 80:80 --publish 2222:22 \
+--name gitlab \
+--restart always \
+--volume /srv/gitlab/config:/etc/gitlab \
+--volume /srv/gitlab/logs:/var/log/gitlab \
+--volume /srv/gitlab/data:/var/opt/gitlab \
+gitlab/gitlab-ce:latest
