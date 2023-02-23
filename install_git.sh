@@ -13,7 +13,10 @@ sudo systemctl enable docker
 # Download Gitlab image from Docker hub
 sudo docker pull gitlab/gitlab-ce:latest
 
-sudo firewall-cmd --zone=public --add-port=8080/tcp --add-source=192.168.0.2 --permanent
+sudo firewall-cmd --permanent --new-zone=gitlab
+sudo firewall-cmd --permanent --zone=gitlab --add-source=192.168.0.2/32 --add-port=8080/tcp
+sudo firewall-cmd --reload
+
 
 # Create a new Docker container for Gitlab
 sudo docker run --detach \
