@@ -7,8 +7,10 @@ sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 #instead of gitlab (aka container name. you can also use container id after the -it)
 sudo docker exec -it gitlab bash  
 
-#inside bash of container
+#inside bash of container it will prompt your new user name and password 
 sudo gitlab-rake “gitlab:password:reset”
+
+
 
 
 You can use Ctrl+U to clear up to the beginning.
