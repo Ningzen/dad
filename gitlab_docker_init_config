@@ -1,10 +1,13 @@
 #get container id
 sudo docker ps 
 
-sudo docker exec -it gitlab bash
-
+#the following will disappear after 24hr
 sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 
+#instead of gitlab (aka container name. you can also use container id after the -it)
+sudo docker exec -it gitlab bash  
+
+#inside bash of container
 sudo gitlab-rake “gitlab:password:reset”
 
 
