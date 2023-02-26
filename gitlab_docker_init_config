@@ -11,7 +11,8 @@ sudo docker exec -it gitlab bash
 sudo gitlab-rake “gitlab:password:reset”
 
 
-
+---
+https://docs.gitlab.com/ee/security/reset_user_password.html
 
 You can use Ctrl+U to clear up to the beginning.
 
