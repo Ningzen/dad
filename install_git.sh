@@ -3,6 +3,7 @@
 set -e
 
 # Install docker
+sudo yum update
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo yum install -y docker-ce docker-ce-cli containerd.io
@@ -106,10 +107,11 @@ sudo nano /etc/firewalld/services/gitlab.xml
 sudo firewall-cmd --reload
 
 
---------
+--------latest version
 #!/bin/bash
 
 # Install docker
+sudo yum update
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo yum install -y docker-ce docker-ce-cli containerd.io
@@ -130,6 +132,15 @@ sudo docker run --detach \
 --volume /srv/gitlab/logs:/var/log/gitlab \
 --volume /srv/gitlab/data:/var/opt/gitlab \
 gitlab/gitlab-ce:latest
+
+
+------
+sudo docker volume create todo-db
+
+Start the todo app container, but add the --mount option to specify a volume mount. 
+We will give the volume a name, and mount it to /etc/todos in the container, which will capture all files created at the path.
+
+docker run -dp 3000:3000 --mount type=volume,src=todo-db,target=/etc/todos getting-started
 
 https://forum.gitlab.com/t/cannot-access-local-gitlab-server-gui-using-browser/36452/6
 
