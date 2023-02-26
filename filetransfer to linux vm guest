@@ -45,3 +45,6 @@ SFTP
 ifconfig to get ip address of guest vm
 port 22
 user and pass.
+
+if need change localhost dns
+c:\Windows\System32\drivers\etc\hosts
