@@ -4,3 +4,17 @@ sudo docker ps
 sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 
 sudo gitlab-rake “gitlab:password:reset”
+
+
+You can use Ctrl+U to clear up to the beginning.
+
+You can use Ctrl+W to delete just a word.
+
+You can also use Ctrl+C to cancel.
+
+If you want to keep the history, you can use Alt+Shift+# to make it a comment.
+
+The line deleted by Ctrl-U is recallable with Ctrl-Y, too
+
+Go to beginning of the line: Ctrl+A
+Go to end of the line: Ctrl+E
