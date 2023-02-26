@@ -1,0 +1,5 @@
+sudo docker ps get container id
+
+sudo docker exec -it grep ‘Password:’ /etc/gitlab/initial_root_password
+
+sudo gitlab-rake “gitlab:password:reset”
