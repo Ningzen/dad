@@ -36,3 +36,12 @@ sudo vim /etc/sysconfig/iptables
 
 #Restart iptables to apply the changes:
 sudo systemctl restart iptables
+
+
+----
+Seems like all preinstall for Rhel 9.1
+Just have to winscp
+SFTP
+ifconfig to get ip address of guest vm
+port 22
+user and pass.
