@@ -1,0 +1,38 @@
+#Does my host pc have winscp??
+
+sudo yum -y install openssh-server opsenssh-clients
+
+#Starting SSH Service
+sudo systemctl start sshd
+
+#Check sshd status
+sudo systemctl status sshd
+
+#stop ssh daemon
+systemctl stop sshd
+
+#Enable SSH to start automatically after each system reboot by using the systemctl command:
+sudo systemctl enable sshd
+
+#Properly configuring the sshd configuration file hardens server security 
+#The most common settings to enhance security are changing the port number, disabling root logins, and limiting access to only certain users.
+
+#To edit these settings access the /etc/ssh/sshd_config file
+sudo vim /etc/ssh/sshd_config
+
+#then
+service sshd restart
+
+#It is also possible to restrict IP access to make the connection even more secure.
+
+#To restrict IP access, edit the iptables file by typing:
+sudo vim /etc/sysconfig/iptables
+
+#To allow access using the port defined in the sshd config file, add the following line to the iptables file:
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 2002 -j ACCEPT
+
+#To restrict access to a specific IP, for example 133.123.40.166, edit the line as follows:
+-A RH-Firewall-1-INPUT -s 133.123.40.166 -m state --state NEW -p tcp --dport 2002 -j ACCEPT
+
+#Restart iptables to apply the changes:
+sudo systemctl restart iptables
