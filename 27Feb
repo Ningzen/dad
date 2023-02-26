@@ -1,0 +1,66 @@
+https://artifacthub.io/packages/helm/gitlab/gitlab
+
+https://ruzickap.github.io/k8s-knative-gitlab-harbor/part-05/
+
+https://about.gitlab.com/blog/2019/09/26/building-a-cicd-pipeline-in-20-mins/
+
+https://github.com/ruzickap/k8s-knative-gitlab-harbor/blob/master/run-k8s-full.sh
+
+https://gitlab.com/gitlab-org/gitlab-foss/blob/master/lib/gitlab/ci/templates/Auto-DevOps.gitlab-ci.yml
+
+https://www.snel.com/support/how-to-create-your-own-gitlab-server-on-ubuntu-18-04/
+
+https://m.youtube.com/watch?v=8JrCPKItygc
+Rem to install virtio, openssh, nfs server first
+I decide to use this if not will break cvm disk space.
+root@esxi# chmod 644 /vmfs/volumes/datastore/win7-vm/*.vmdk
+
+nutanix@cvm$ acli image.create win7-vm-disk0 source_url=nfs://10.0.0.1/datastore/win7-vm/win7-vm-flat.vmdk
+Uninstall docker. Install podman
+nginx, minikube, helm chart later
+Nutanix VM Mobility drivers
+https://portal.nutanix.com/page/documents/kbs/details?targetId=kA032000000TTgPCAW
+
+https://portal.nutanix.com/page/documents/solutions/details?targetId=TN-2072-AHV-Migration:TN-2072-AHV-Migration
+
+https://docs.gitlab.com/charts/development/minikube/
+Virtio config
+https://portal.nutanix.com/page/documents/kbs/details?targetId=kA032000000TTizCAG
+
+https://artifacthub.io/packages/helm/gitlab/gitlab
+
+https://github.com/helm/helm/releases
+
+Login Nutanix immediately, find harbor no use, cos cannot do tar,
+
+https://stackoverflow.com/questions/49669077/helm-chart-deployment-and-private-docker-repository
+
+https://www.redhat.com/sysadmin/simple-container-registry
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-22-04
+
+Podman import podman load
+Podman save podman export
+Versus podman run
+
+https://istio.io/latest/docs/setup/additional-setup/customize-installation-helm/
+
+yum remove <package_name>
+# sync; echo 3 > /proc/sys/vm/drop_caches
+dnf clean all
+
+https://helm.sh/docs/intro/install/
+
+https://www.logicmonitor.com/blog/what-is-helm-in-kubernetes#:~:text=Helm%20Library%3A%20Helm%20library%20is,component%20for%20installing%20any%20chart.
+
+https://www.google.com/amp/s/www.techtarget.com/searchitoperations/tutorial/Use-this-Kubernetes-and-Helm-tutorial-to-simplify-app-deployments%3famp=1
+
+https://next.nutanix.com/nutanix-kubernetes-engine-30/tillerless-helm-on-nutanix-karbon-31334
+https://m.youtube.com/watch?v=biudBoBejW8
+
+Should be install on k8 master
+https://devopscube.com/install-configure-helm-kubernetes/
+
+
+----
+
