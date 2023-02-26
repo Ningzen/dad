@@ -1,6 +1,6 @@
 #Does my host pc have winscp??
 
-sudo yum -y install openssh-server opsenssh-clients
+sudo yum -y install openssh-server openssh-clients
 
 #Starting SSH Service
 sudo systemctl start sshd
