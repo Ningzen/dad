@@ -1,7 +1,7 @@
 #get container id
 sudo docker ps 
 
-docker exec -it gitlab bash
+sudo docker exec -it gitlab bash
 
 sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 
