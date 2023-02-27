@@ -3,4 +3,61 @@ https://download.docker.com/linux/rhel/9/source/stable/Packages/
  sudo yum --disablerepo=* localinstall foo.rpm bar.rpm baz.rpm
 Since you have downloaded all the dependencies to a single directory, you can also use rpm to install those:
 
- sudo rpm -Uvvh *.rpm --test
+ sudo rpm -Uvh *.rpm
+sudo rpm -ivh *.rpm
+
+//check all the dependencies else all will fail
+sudo rpm -V *.rpm
+
+//broken
+yum deplist docker-ce
+
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Configure firewall
+sudo firewall-cmd --zone=public --add-port=80/tcp --add-port=443/tcp --add-port=2222/tcp --permanent
+sudo firewall-cmd --reload
+
+
+
+----
+To pull all the dependencies and put them into one package using YUM on a Linux system, you can use the yum-plugin-tmprepo package to create a temporary repository containing all the dependencies, and then use the yumdownloader command to download the packages to a directory, which can then be used to create a new package.
+
+Here are the steps to follow:
+
+Install the yum-plugin-tmprepo package:
+
+Copy code
+sudo yum install yum-plugin-tmprepo
+Create a temporary repository containing all the dependencies:
+
+css
+Copy code
+sudo yum install --downloadonly --downloaddir=/tmp/mydeps mypackage
+sudo yum install --downloadonly --downloaddir=/tmp/mydeps --disablerepo=* --enablerepo=tmprepo $(repoquery --requires --resolve mypackage)
+sudo createrepo /tmp/mydeps
+This will create a repository in the /tmp/mydeps directory that contains all the dependencies for mypackage.
+
+Use yumdownloader to download the packages to a directory:
+
+javascript
+Copy code
+sudo yum install yum-utils
+sudo yumdownloader --destdir=/tmp/mypackage --resolve mypackage
+This will download mypackage and all its dependencies to the /tmp/mypackage directory.
+
+Create a new package using the downloaded packages:
+
+bash
+Copy code
+sudo yum install rpm-build
+rpmbuild --rebuild /tmp/mypackage/mypackage*.src.rpm
+This will create a new package that contains mypackage and all its dependencies.
+
+Install the new package:
+
+bash
+Copy code
+sudo yum install /root/rpmbuild/RPMS/x86_64/mypackage*.rpm
+This will install the new package containing mypackage and all its dependencies.
