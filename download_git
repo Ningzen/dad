@@ -19,7 +19,9 @@ sudo systemctl enable docker
 sudo firewall-cmd --zone=public --add-port=80/tcp --add-port=443/tcp --add-port=2222/tcp --permanent
 sudo firewall-cmd --reload
 
-
+!!!!
+Need a better way to download without installing
+https://access.redhat.com/solutions/10154
 
 ----
 To pull all the dependencies and put them into one package using YUM on a Linux system, you can use the yum-plugin-tmprepo package to create a temporary repository containing all the dependencies, and then use the yumdownloader command to download the packages to a directory, which can then be used to create a new package.
