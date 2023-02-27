@@ -1,2 +1,6 @@
 https://download.docker.com/linux/rhel/9/source/stable/Packages/
 
+ sudo yum --disablerepo=* localinstall foo.rpm bar.rpm baz.rpm
+Since you have downloaded all the dependencies to a single directory, you can also use rpm to install those:
+
+ sudo rpm -Uvvh *.rpm --test
