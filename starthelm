@@ -1,3 +1,8 @@
 https://stackoverflow.com/questions/50343089/how-to-use-helm-charts-without-internet-access
 
 https://github.com/helm/helm
+
+hel pull name/name--untar=true
+
+----
+helm install monitoring ./kube-prometheus-stack
