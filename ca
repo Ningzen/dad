@@ -1,0 +1,17 @@
+Before installing a certification authority, you must first finalize the computer's name and domain settings, such as joining a domain or promoting a server to a domain controller. 
+After a CA has been installed, you can no longer change the computer name or the computer's domain membership.
+Enterprise CA.
+Root CA
+
+Common name for this CA
+Distinguished name suffix
+DC=???,DC=???
+
+Validity 10 years
+
+https://linuxsimba.github.io/windows-ldap-external-ca
+https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/deployment/distribute-certificates-to-client-computers-by-using-group-policy
+
+https://github.com/GSA/piv-guides/issues/109
+
+https://learn.microsoft.com/en-us/answers/questions/167705/ssl-on-domain-controllers
