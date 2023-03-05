@@ -30,3 +30,5 @@ kubectl get po
 kubectl get svc
 
 #find parallel: minikube start --memory 4096 --driver docker
+
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
