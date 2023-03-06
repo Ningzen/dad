@@ -1,2 +1,14 @@
 https://github.com/etiennedi/keycloak-nginx-https-self
 https://www.youtube.com/watch?v=yq1hzNs1JQU
+
+./x509/localhost.crt:/etc/x509/https/tls.crt
+./x509/localhost.key:/etc/x509/https/tls.key
+./x509/rootCA.crt:/etc/x509/https/rootCA.crt
+
+/opt/jboss/keycloak/standalone/configuration/keystores/https-keystore.jks
+
+https://gist.github.com/dasniko/b1aa115fd9078372b03c7a9f7e9ec189
+
+https://www.keycloak.org/server/containers
+
+https://github.com/keycloak/keycloak-containers/blob/main/server/tools/x509.sh
