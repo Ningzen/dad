@@ -12,3 +12,6 @@ https://about.gitlab.com/blog/2021/09/10/setting-up-the-k-agent/
 https://gitlab.com/gitlab-org/cluster-integration/gitlab-agent/container_registry/1246369
 
 https://gitlab.com/gitlab-org/cluster-integration/gitlab-agent
+
+
+https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
