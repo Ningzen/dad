@@ -25,3 +25,4 @@ https://gitlab.com/charts/kubernetes-gitlab-demo
 
 
 https://kubernetes.io/docs/setup/production-environment/tools/kops/
+https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
