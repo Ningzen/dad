@@ -65,3 +65,10 @@ mkdir data/mysql
 mkdir letsencrypt
 
 podman-compose up -d
+
+
+--
+https://www.redhat.com/sysadmin/rootless-podman-makes-sense
+https://www.redhat.com/sysadmin/controlling-access-rootless-podman-users
+https://opensource.com/article/22/1/run-containers-without-sudo-podman
+https://github.com/containers/podman/blob/main/docs/tutorials/rootless_tutorial.md
