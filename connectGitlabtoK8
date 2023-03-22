@@ -34,3 +34,34 @@ https://www.redhat.com/sysadmin/rootless-podman-makes-sense
 https://developers.redhat.com/blog/2020/09/25/rootless-containers-with-podman-the-basics#
 
 https://www.youtube.com/watch?v=N4ki5Sffy-E
+
+sudo apt install python3-pip
+possibly after pip3 install podman-compose
+//they din
+export PATH=$PATH:$HOME/.local/bin
+
+vi ~/.bashrc
+
+//put at last line of .bashrc. to make it persistent
+export PATH=$PATH:$HOME/.local/bin
+
+sudo mkdir npm
+sudo chown usrname:usrname npm
+cd npm
+vi docker-compose.yaml
+
+//https://nginxproxymanager.com/guide/#hosting-your-home-network
+https://youtu.be/-hJosY_M0I4?t=877   //unprivilege port exposure
+
+//podman compose will always assume that the folders are already created for those volumes
+
+volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+      
+//therefore
+mkdir data
+mkdir data/mysql
+mkdir letsencrypt
+
+podman-compose up -d
