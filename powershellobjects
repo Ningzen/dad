@@ -2,3 +2,20 @@ $color | Select-Oject -Property *
 Get-Member -InputObject $color
 $color | Get-Member
 $color.GetType().Name
+
+$obj = New-Object -TypeName PSObject
+
+//oldway
+$obj | Add-Member -MemberType NoteProperty -Name OSBuild -Value 'wadasd'
+
+//new way type accelerator
+$myFirstCustomObject = [pscustomobject]@{
+    OSBuild = 'OSBuild'
+    OSVersion = 'Version'
+}
+
+
+https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-hashtable?view=powershell-7.3
+
+//ssl on restmethod
+https://adamtheautomator.com/invoke-restmethod/
