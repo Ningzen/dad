@@ -1,2 +1,3 @@
 $color | Select-Oject -Property *
 Get-Member -InputObject $color
+$color | Get-Member
